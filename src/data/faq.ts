@@ -22,9 +22,4 @@ export const faqs: IFAQ[] = [
     answer:
       'Not at all! Our expert-curated portfolios and educational resources make investing accessible to everyone, regardless of experience level.',
   },
-  {
-    question: 'What if I need help using the app?',
-    answer:
-      'Our dedicated support team is available 24/7 via chat or email. Plus, we offer extensive in-app tutorials and a comprehensive knowledge base to help you make the most of Finwise.',
-  },
 ];

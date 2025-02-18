@@ -29,17 +29,13 @@ const HomePage: React.FC = () => {
       <PlaylistSpotify />
 
       <Container>
-        {/* <Section
-          id="testimonials"
-          title="What Our Clients Say"
-          description="Hear from those who have partnered with us."
-        >
+        <Section id="testimonials" title="Testimonios" description="">
           <Testimonials />
-        </Section> */}
+        </Section>
 
-        {/* <FAQ />
+        <FAQ />
 
-        <Stats />
+        {/* <Stats />
         
         <CTA /> */}
       </Container>

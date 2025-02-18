@@ -1,3 +1,4 @@
+import Image from 'next/image';
 const PlaylistSpotify: React.FC = () => {
   return (
     <section
@@ -12,15 +13,28 @@ const PlaylistSpotify: React.FC = () => {
         paddingBottom: 240,
       }}
     >
-      <div className="mt-5 w-full flex flex-wrap flex-col items-center justify-evenly gap-5 sm:gap-10 logos-container">
-        <h1 className="text-4xl text-center text-white md:text-6xl font-bold text-foreground">
-          {'!Haz tu nivelacion gratis hoy!'}
-        </h1>
-        <div>
-          <button className="flex justify-center bg-[#FFFFFF] py-4 px-10 rounded-full">
-            <p className="text-[#ee5983]">Aqui</p>
-          </button>
-        </div>
+      <div className="mt-5 w-full flex flex-wrap flex-row items-center justify-evenly gap-5 sm:gap-10 logos-container">
+        <Image
+          className="pointer "
+          src="/images/A-level-playlist.png"
+          alt="Logo"
+          width={200}
+          height={200}
+        />
+        <Image
+          className="pointer "
+          src="/images/B-level-playlist.png"
+          alt="Logo"
+          width={200}
+          height={200}
+        />
+        <Image
+          className="pointer "
+          src="/images/C-level-playlist.png"
+          alt="Logo"
+          width={200}
+          height={200}
+        />
       </div>
     </section>
   );
