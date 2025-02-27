@@ -1,10 +1,12 @@
+import Link from 'next/link';
+
 const LevelUpAction: React.FC = () => {
   return (
     <section
       id="logos"
       className="py-32 px-5 "
       style={{
-        backgroundImage: 'url(./images/bg-section-1.png)',
+        backgroundImage: 'url(./images/bg-section-1.webp)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -15,9 +17,12 @@ const LevelUpAction: React.FC = () => {
           {'!Haz tu nivelacion gratis hoy!'}
         </h1>
         <div>
-          <button className="flex justify-center bg-[#FFFFFF] py-4 px-10 rounded-full">
+          <Link
+            href="#hero"
+            className="flex justify-center bg-[#FFFFFF] py-4 px-10 rounded-full"
+          >
             <p className="text-[#ee5983]">Aqui</p>
-          </button>
+          </Link>
         </div>
       </div>
     </section>

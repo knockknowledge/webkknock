@@ -6,8 +6,6 @@ import Logos from '@/components/Logos';
 import Benefits from '@/components/Benefits/Benefits';
 import Container from '@/components/Container';
 import Section from '@/components/Section';
-import Stats from '@/components/Stats';
-import CTA from '@/components/CTA';
 import LevelUpAction from '@/components/LevelUpAction';
 import PlaylistSpotify from '@/components/PlaylistSpotify';
 
@@ -15,10 +13,9 @@ const HomePage: React.FC = () => {
   return (
     <>
       <Hero />
-
       <LevelUpAction />
       <Container>
-        <Section id="benefits" title="" description="">
+        <Section id="about" title="" description="">
           <Benefits />
         </Section>
         <Logos />
@@ -27,17 +24,11 @@ const HomePage: React.FC = () => {
         </Section>
       </Container>
       <PlaylistSpotify />
-
       <Container>
         <Section id="testimonials" title="Testimonios" description="">
           <Testimonials />
         </Section>
-
         <FAQ />
-
-        {/* <Stats />
-        
-        <CTA /> */}
       </Container>
     </>
   );

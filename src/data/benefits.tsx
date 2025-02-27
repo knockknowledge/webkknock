@@ -16,7 +16,7 @@ export const benefits: IBenefit[] = [
   {
     title: '',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus quis voluptas placeat repudiandae error, itaque nesciunt alias harum quaerat architecto officia praesentium? Maxime accusantium dolorem tenetur sed molestiae facilis facere?. \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus quis voluptas placeat repudiandae error, itaque nesciunt alias harum quaerat architecto officia praesentium? Maxime accusantium dolorem tenetur sed molestiae facilis facere?.',
+      'Knock knowledge es una academia online especializada en la enseñanza del idioma ingles con profesores 100% capacitados, en continuo aprendizaje y desarrollo. Nuestra metodologia se adapta al mundialmente reconocido "estándar europeo del marco comun europeo de referencia para las lenguas (CEFR)" dividido en diferentes grados de aprendizaje los cuales son el A1-A2- B1-B2-C1 a lo largo de 22 niveles academicos adaptados para una formacion garantizada de personas bilingues al finalizar nuestro curso.',
     bullets: [
       {
         title: 'Micro-Investing',

@@ -1,5 +1,7 @@
 import clsx from 'clsx';
 import {BsFillCheckCircleFill} from 'react-icons/bs';
+import Image from 'next/image';
+import Link from 'next/link';
 
 import {IPricing} from '../../types/types';
 
@@ -10,7 +12,7 @@ interface Props {
 }
 
 const PricingColumn: React.FC<Props> = ({tier, highlight, color}: Props) => {
-  const {name, price, features} = tier;
+  const {name, price, features, image, description} = tier;
 
   return (
     <div
@@ -19,14 +21,17 @@ const PricingColumn: React.FC<Props> = ({tier, highlight, color}: Props) => {
         {'': highlight},
       )}
     >
-      <div className="p-6 border-b border-gray-200 rounded-t-xl flex flex-col justify-center items-center">
-        <div
-          className="w-40 h-40 rounded-full bg-gray-200 mb-6 flex justify-center items-center"
-          style={{
-            backgroundColor: color, // Aplica el color dinámicamente
-          }}
-        >
-          <p className="text-white font-bold">Icon</p>
+      <div className="p-6  rounded-t-xl flex flex-col justify-center items-center">
+        <div className="w-40 h-40 rounded-full bg-gray-200 mb-6 flex justify-center items-center overflow-hidden">
+          {/* <p className="text-white font-bold">Icon</p> */}
+          <Image
+            src={image}
+            alt="Logo"
+            //objectFit="cover"
+            className="object-cover"
+            width={160}
+            height={160}
+          />
         </div>
 
         <h3 className="text-2xl font-semibold mb-4 text-center">{name}</h3>
@@ -44,7 +49,8 @@ const PricingColumn: React.FC<Props> = ({tier, highlight, color}: Props) => {
             <span className="text-lg font-normal text-gray-600">/mo</span>
           )}
         </p> */}
-        <button
+        <Link
+          href="#hero"
           className={clsx(
             'py-1 px-10 rounded-full transition-colors font-bold',
             {
@@ -57,7 +63,7 @@ const PricingColumn: React.FC<Props> = ({tier, highlight, color}: Props) => {
           }}
         >
           Saber más
-        </button>
+        </Link>
       </div>
       {/* <div className="p-6 mt-1">
         <p className="font-bold mb-0">FEATURES</p>

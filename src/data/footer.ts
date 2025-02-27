@@ -11,28 +11,35 @@ export const footerDetails: {
     'Empowering businesses with cutting-edge financial technology solutions.',
   quickLinks: [
     {
-      text: 'Features',
-      url: '#features',
+      text: 'Quienes Somos',
+      url: '#about',
     },
     {
-      text: 'Pricing',
-      url: '#pricing',
+      text: 'Programas',
+      url: '#plans',
     },
     {
-      text: 'Testimonials',
-      url: '#testimonials',
+      text: 'Reviews',
+      url: '#spotify-playlist',
+    },
+    {
+      text: 'FAQ',
+      url: '#faq',
+    },
+    {
+      text: 'Contactanos',
+      url: '#hero',
     },
   ],
   email: 'address@yoursite.com',
   telephone: '+1 (123) 456-7890',
   socials: {
-    // github: 'https://github.com',
-    // x: 'https://twitter.com/x',
-    twitter: 'https://twitter.com/Twitter',
-    facebook: 'https://facebook.com',
+    //twitter: 'https://twitter.com/Twitter',
+    facebook: 'https://www.facebook.com/knock.knowledge?mibextid=ZbWKwL',
     // youtube: 'https://youtube.com',
-    linkedin: 'https://www.linkedin.com',
+    // linkedin: 'https://www.linkedin.com',
     // threads: 'https://www.threads.net',
-    instagram: 'https://www.instagram.com',
+    instagram: 'https://instagram.com/knock.knowledge?igshid=ZDdkNTZiNTM=',
+    tiktok: 'https://www.tiktok.com/@knockknowledge?_t=ZM-8u6xEKMi5Uk&_r=1',
   },
 };

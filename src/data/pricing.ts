@@ -5,49 +5,21 @@ export const tiers: IPricing[] = [
     name: 'Niños',
     price: '',
     features: [],
+    image: '/images/plan-image2.webp',
+    description: '',
   },
   {
     name: 'Jovenes',
     price: '',
     features: [],
+    image: '/images/plan-image1.webp',
+    description: '',
   },
   {
     name: 'Adultos',
     price: '',
     features: [],
+    image: '/images/plan-image3.webp',
+    description: '',
   },
-
-  // {
-  //   name: 'Niños',
-  //   price: '',
-  //   features: [
-  //     'Basic cloud integration',
-  //     'Up to 5 team members',
-  //     '20GB storage',
-  //     'Email support',
-  //   ],
-  // },
-  // {
-  //   name: 'Jovenes',
-  //   price: '',
-  //   features: [
-  //     'Advanced cloud integration',
-  //     'Up to 20 team members',
-  //     '100GB storage',
-  //     'Priority email & phone support',
-  //     'Advanced analytics',
-  //   ],
-  // },
-  // {
-  //   name: 'Adultos',
-  //   price: '',
-  //   features: [
-  //     'Full cloud integration',
-  //     'Unlimited team members',
-  //     'Unlimited storage',
-  //     '24/7 dedicated support',
-  //     'Custom solutions',
-  //     'On-site training',
-  //   ],
-  // },
 ];
