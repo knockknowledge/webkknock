@@ -8,6 +8,7 @@ import Container from '@/components/Container';
 import Section from '@/components/Section';
 import LevelUpAction from '@/components/LevelUpAction';
 import PlaylistSpotify from '@/components/PlaylistSpotify';
+import Subscription from '@/components/Subscription';
 
 const HomePage: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ const HomePage: React.FC = () => {
         </Section>
         <FAQ />
       </Container>
+      <Subscription />
     </>
   );
 };
