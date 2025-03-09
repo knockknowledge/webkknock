@@ -13,11 +13,11 @@ const Subscription: React.FC = () => {
         paddingTop: 300,
         paddingBottom: 300,
       }}
-      >
+    >
       <h2 className="text-5xl font-bold mb-10 text-center text-white">Suscripciones</h2>
-      <div className="flex justify-center gap-10">
+      <div className="flex flex-wrap justify-center gap-10 md:flex-nowrap">
         {["Chill", "Focused", "Immersion", "Mastery"].map((plan, index) => (
-          <div key={index} className="flex flex-col items-center text-white">
+          <div key={index} className="flex flex-col items-center text-white w-full md:w-auto">
             <div className="w-20 h-20 bg-white text-red-500 flex items-center justify-center rounded-full text-lg font-semibold">
               Icono
             </div>
@@ -29,5 +29,6 @@ const Subscription: React.FC = () => {
     </section>
   );
 };
+
 
 export default Subscription;
