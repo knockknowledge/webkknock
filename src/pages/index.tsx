@@ -17,7 +17,6 @@ const HomePage: React.FC = () => {
       <LevelUpAction />
 
       <Container>
-
         <Section id="about" title="" description="">
           <Benefits />
         </Section>
@@ -25,25 +24,22 @@ const HomePage: React.FC = () => {
         <Logos />
 
         <Section id="plans" title="Nuestros Programas" description="">
-          <div className="-mb-20 relative z-10">
+          <div className="-mb-60 relative z-10 md:-mb-40">
             <Pricing />
           </div>
         </Section>
-
       </Container>
 
       <PlaylistSpotify />
 
       <Container>
-      <div className="-mt-20 relative z-10">
-        <Section id="testimonials" title="Testimonios" description="">
-            
-          <Testimonials  />
-         
-        </Section>
+        <div className="-mt-60 relative z-10 md:-mt-40">
+          <Section id="testimonials" title="Testimonios" description="">
+            <Testimonials />
+          </Section>
         </div>
- <div className="-mb-20 relative z-10">
-        <FAQ />
+        <div className="-mb-60 relative z-10 md:-mb-20">
+          <FAQ />
         </div>
       </Container>
 
