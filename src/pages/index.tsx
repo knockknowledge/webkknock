@@ -1,14 +1,15 @@
-import Hero from "@/components/Hero";
-import Testimonials from "@/components/Testimonials";
-import Pricing from "@/components/Pricing/Pricing";
-import FAQ from "@/components/FAQ";
-import Logos from "@/components/Logos";
-import Benefits from "@/components/Benefits/Benefits";
-import Container from "@/components/Container";
-import Section from "@/components/Section";
-import LevelUpAction from "@/components/LevelUpAction";
-import PlaylistSpotify from "@/components/PlaylistSpotify";
-import Subscription from "@/components/Subscription";
+import Hero from '@/components/Hero';
+import Testimonials from '@/components/Testimonials';
+import Pricing from '@/components/Pricing/Pricing';
+import FAQ from '@/components/FAQ';
+import Logos from '@/components/Logos';
+import Benefits from '@/components/Benefits/Benefits';
+import Container from '@/components/Container';
+import Section from '@/components/Section';
+import LevelUpAction from '@/components/LevelUpAction';
+import PlaylistSpotify from '@/components/PlaylistSpotify';
+import Subscription from '@/components/Subscription';
+import ContactForm from '@/components/ContactForm';
 
 const HomePage: React.FC = () => {
   return (
@@ -17,7 +18,6 @@ const HomePage: React.FC = () => {
       <LevelUpAction />
 
       <Container>
-
         <Section id="about" title="" description="">
           <Benefits />
         </Section>
@@ -29,25 +29,33 @@ const HomePage: React.FC = () => {
             <Pricing />
           </div>
         </Section>
-
       </Container>
 
       <PlaylistSpotify />
 
       <Container>
-      <div className="-mt-20 relative z-10">
-        <Section id="testimonials" title="Testimonios" description="">
-            
-          <Testimonials  />
-         
-        </Section>
+        <div className="-mt-20 relative z-10">
+          <Section id="testimonials" title="Testimonios" description="">
+            <Testimonials />
+          </Section>
         </div>
- <div className="-mb-20 relative z-10">
-        <FAQ />
+        <div className="-mb-20 relative z-10">
+          <FAQ />
         </div>
       </Container>
 
       <Subscription />
+
+      <Container>
+        <Section
+          id="Contact"
+          title="Contactanos"
+          description=""
+          classes="-mt-40 relative z-10 flex justtify-center items-center flex-col"
+        >
+          <ContactForm classes="py-4 w-[70%] " />
+        </Section>
+      </Container>
     </>
   );
 };

@@ -88,7 +88,7 @@ const Hero: React.FC = () => {
 
         {/* ContactForm */}
         <div className="w-full lg:w-1/3">
-          <ContactForm />
+          <ContactForm title={'Contactanos'} classes="py-8" />
         </div>
       </div>
     </section>

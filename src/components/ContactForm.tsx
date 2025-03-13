@@ -2,6 +2,7 @@ import React from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import * as Yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
+import clsx from 'clsx';
 
 // Definir el esquema de validación con Yup
 const schema = Yup.object({
@@ -20,7 +21,12 @@ interface FormData {
   phone: string;
 }
 
-const ContactForm: React.FC = () => {
+interface ContactFormProps {
+  title?: string; // El título es opcional
+  classes?: string; // Clases CSS opcionales
+}
+
+const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
   // Usar react-hook-form con Yup para la validación
   const {
     control,
@@ -51,8 +57,8 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <section className="bg-white p-8 rounded-lg shadow-lg">
-      <h2 className="text-blue-500 mb-5">Contactanos</h2>
+    <section className={clsx('bg-white px-8 rounded-lg shadow-lg', classes)}>
+      {title && <h2 className="text-blue-500 mb-5">{title}</h2>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4 flex flex-col rounded-lg p-2 bg-gray-200">
           <label htmlFor="firstName">Nombre:</label>
@@ -115,10 +121,10 @@ const ContactForm: React.FC = () => {
           />
           {errors.phone && <p style={{color: 'red'}}>{errors.phone.message}</p>}
         </div>
-        <div>
+        <div className="w-full flex justify-center">
           <button
             type="submit"
-            className="flex justify-center bg-blue-300 p-4 rounded-lg text-white hover:bg-blue-400"
+            className="flex justify-center bg-blue-300 p-4 rounded-lg text-white hover:bg-blue-400 w-full"
           >
             Enviar
           </button>

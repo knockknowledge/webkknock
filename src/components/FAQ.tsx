@@ -28,14 +28,14 @@ const FAQ: React.FC = () => {
                     <a href="mailto:" className="mt-3 block text-xl lg:text-4xl text-secondary font-semibold hover:underline text-center lg:text-left">help@finwise.com</a>
                 </div> */}
 
-        <div className="w-full lg:max-w-7xl mx-auto">
+        <div className="w-full lg:max-w-4xl mx-auto">
           {faqs.map((faq, index) => (
             <div key={index} className={`mb-3 rounded-lg text-white`}>
               <Disclosure>
                 {({open}) => (
                   <>
                     <DisclosureButton
-                      className={`flex items-center justify-between w-full p-4 text-lg text-left rounded-full ${
+                      className={`flex items-center justify-between w-full p-4 text-lg text-left rounded-full  ${
                         colors[index % colors.length]
                       }`}
                     >
@@ -49,7 +49,7 @@ const FAQ: React.FC = () => {
                       )}
                     </DisclosureButton>
                     <DisclosurePanel
-                      className={`px-4 pt-4 pb-2 flex flex-col lg:flex-row items-center lg:items-stretch gap-4 lg:gap-6 bg-white`}
+                      className={`px-4 pt-4 pb-2 flex flex-col lg:flex-row items-center lg:items-stretch gap-4 lg:gap-6 bg-white  border-2 border-t-0 rounded-lg`}
                     >
                       {/* Imagen - Ocupa la mitad en desktop */}
                       {faq.image && (
