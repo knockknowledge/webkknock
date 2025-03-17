@@ -36,9 +36,9 @@ export interface IFAQ {
 
 export interface ITestimonial {
   name: string;
-  role: string;
+  role?: string;
   message: string;
-  avatar: string;
+  avatar?: string;
 }
 
 export interface IStats {

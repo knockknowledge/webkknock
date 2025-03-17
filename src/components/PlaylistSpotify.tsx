@@ -6,7 +6,7 @@ const PlaylistSpotify: React.FC = () => {
       id="spotify-playlist"
       className="py-32 px-5"
       style={{
-        backgroundImage: 'url(./images/bg-section-2.png)',
+        backgroundImage: 'url(./images/bg-section-2.webp)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

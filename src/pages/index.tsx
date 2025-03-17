@@ -1,5 +1,6 @@
 import Hero from '@/components/Hero';
 import Testimonials from '@/components/Testimonials';
+import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 import Pricing from '@/components/Pricing/Pricing';
 import FAQ from '@/components/FAQ';
 import Logos from '@/components/Logos';
@@ -36,7 +37,7 @@ const HomePage: React.FC = () => {
       <Container>
         <div className="-mt-60 relative z-10 md:-mt-40">
           <Section id="testimonials" title="Testimonios" description="">
-            <Testimonials />
+            <TestimonialsCarousel />
           </Section>
         </div>
         <div className="-mb-60 relative z-10 md:-mb-20">

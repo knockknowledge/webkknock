@@ -12,6 +12,7 @@
     "@headlessui/react": "^2.1.8",
     "@hookform/resolvers": "^4.1.0",
     "@next/third-parties": "^14.2.13",
+    "@svgr/webpack": "^8.1.0",
     "axios": "^1.7.9",
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.9",

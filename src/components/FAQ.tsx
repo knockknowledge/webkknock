@@ -7,10 +7,12 @@ import SectionTitle from './SectionTitle';
 import {faqs} from '@/data/faq';
 
 const colors = [
-  'bg-pink-500',
-  'bg-fuchsia-500',
-  'bg-purple-500',
-  'bg-indigo-500',
+  'bg-purpleTwitch',
+  'bg-violetGlow',
+  'bg-lavenderDream',
+  'bg-pinkNeon',
+  'bg-coralRed',
+  'bg-orangeSunset',
 ];
 
 const FAQ: React.FC = () => {
