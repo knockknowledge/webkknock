@@ -1,9 +1,7 @@
+import type {AppProps} from 'next/app';
 import type {Metadata} from 'next';
 //import { GoogleAnalytics } from '@next/third-parties/google';
 import {Source_Sans_3, Manrope} from 'next/font/google';
-
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import {siteDetails} from '@/data/siteDetails';
 
 import './globals.css';
@@ -37,23 +35,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function App({Component, pageProps}: AppProps) {
   return (
-    <html lang="en">
-      <body
-        className={`${manrope.className} ${sourceSans.className} antialiased`}
-      >
-        {/* {siteDetails.googleAnalyticsId && (
-          <GoogleAnalytics gaId={siteDetails.googleAnalyticsId} />
-        )} */}
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </body>
-    </html>
+    <div className={`${manrope.className} ${sourceSans.className}`}>
+      <Component {...pageProps} />
+    </div>
   );
 }

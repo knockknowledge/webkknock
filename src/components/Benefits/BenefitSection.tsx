@@ -69,16 +69,37 @@ const BenefitSection: React.FC<Props> = ({benefit, imageAtRight}: Props) => {
               className="flex flex-col w-full"
               variants={childVariants}
             >
-              <SectionTitle>
-                <h3 className="lg:max-w-2xl">{title}</h3>
-              </SectionTitle>
+              <div className="flex justify-center">
+                <Image
+                  src={imageSrc}
+                  alt="title"
+                  width={300}
+                  height={300}
+                  quality={100}
+                  className="lg:ml-0"
+                />
+              </div>
 
               <p className="mt-1.5 mx-auto lg:ml-0 leading-normal text-foreground-accent">
-                {description}
+                {/* {description} */}
+                Knock knowledge es una academia online especializada en la
+                enseñanza del idioma ingles con profesores 100% capacitados, en
+                continuo aprendizaje y desarrollo. Nuestra metodologia se adapta
+                al mundialmente reconocido{' '}
+                <span className="font-bold">
+                  "estándar europeo del marco comun europeo de referencia para
+                  las lenguas (CEFR)"
+                </span>{' '}
+                dividido en diferentes grados de aprendizaje los cuales son el{' '}
+                <span className="font-bold">
+                  A1-A2- B1-B2-C1 a lo largo de 22 niveles
+                </span>{' '}
+                academicos adaptados para una formacion garantizada de personas
+                bilingues al finalizar nuestro curso.
               </p>
             </motion.div>
 
-            <div className="mx-auto lg:ml-0 w-full">
+            {/* <div className="mx-auto lg:ml-0 w-full">
               {bullets.map((item, index) => (
                 <BenefitBullet
                   key={index}
@@ -87,7 +108,7 @@ const BenefitSection: React.FC<Props> = ({benefit, imageAtRight}: Props) => {
                   description={item.description}
                 />
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -98,14 +119,17 @@ const BenefitSection: React.FC<Props> = ({benefit, imageAtRight}: Props) => {
               'justify-end': !imageAtRight,
             })}
           >
-            <Image
-              src={imageSrc}
-              alt="title"
-              width="384"
-              height="762"
-              quality={100}
-              className="lg:ml-0"
-            />
+            <iframe
+              className="w-full h-[315px] lg:w-[560px] lg:h-[315px]"
+              // width="560"
+              // height="315"
+              src="https://www.youtube.com/embed/FNLTSn7rKII?autoplay=1&mute=1"
+              title="YouTube video player"
+              frameBorder="0" // ✅ Correcto en TypeScript
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>
           </div>
         </div>
       </motion.div>
