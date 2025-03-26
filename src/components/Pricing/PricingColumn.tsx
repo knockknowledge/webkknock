@@ -24,23 +24,18 @@ const PricingColumn: React.FC<Props> = ({tier, highlight, color}: Props) => {
       <div className="p-6  rounded-t-xl flex flex-col justify-center items-center">
         <div className="w-40 h-40 rounded-full bg-gray-200 mb-6 flex justify-center items-center overflow-hidden">
           {/* <p className="text-white font-bold">Icon</p> */}
-          <Image
+          <img
             src={image}
             alt="Logo"
             //objectFit="cover"
-            className="object-cover"
+            className="object-cover w-full h-auto rounded-lg"
             width={160}
             height={160}
           />
         </div>
 
         <h3 className="text-2xl font-semibold mb-4 text-center">{name}</h3>
-        <p className="text-gray-600 text-center mb-10">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus
-          neque officiis architecto saepe! Unde nesciunt modi dolore laboriosam
-          asperiores pariatur laborum, harum, quidem sit repudiandae natus
-          veniam aspernatur adipisci iure?
-        </p>
+        <p className="text-gray-600 text-center mb-10">{description}</p>
         {/* <p className="text-3xl md:text-5xl font-bold mb-6">
           <span className={clsx({'text-secondary': highlight})}>
             {typeof price === 'number' ? `$${price}` : price}

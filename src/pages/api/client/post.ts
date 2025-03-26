@@ -28,6 +28,8 @@ export default async function handler(req: any, res: any) {
       lastName: data.lastName,
       email: data.email,
       phone: data.phone,
+      classType: data.classType,
+      ageGroup: data.ageGroup,
     });
 
     await sendMail(newRegister);

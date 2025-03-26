@@ -12,6 +12,8 @@ const schema = Yup.object({
     .email('Por favor ingresa un correo electrónico válido')
     .required('El correo electrónico es requerido'),
   phone: Yup.string().required('El teléfono es requerido'),
+  classType: Yup.string().required('Selecciona el tipo de clase'),
+  ageGroup: Yup.string().required('Selecciona la edad del estudiante'),
 }).required();
 
 interface FormData {
@@ -19,6 +21,8 @@ interface FormData {
   lastName: string;
   email: string;
   phone: string;
+  classType: string;
+  ageGroup: string;
 }
 
 interface ContactFormProps {
@@ -121,6 +125,101 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
           />
           {errors.phone && <p style={{color: 'red'}}>{errors.phone.message}</p>}
         </div>
+
+        {/* Tipo de clase */}
+        <div className="mb-4 flex flex-col rounded-lg p-2 bg-gray-200">
+          <label htmlFor="classType" className="text-sm">
+            Tipo de clase:
+          </label>
+          <div className="flex flex-col">
+            <Controller
+              control={control}
+              name="classType"
+              render={({field}) => (
+                <div className="flex flex-col space-y-2">
+                  <label className="text-sm">
+                    <input
+                      {...field}
+                      type="radio"
+                      value="Personalizado"
+                      className="mr-2"
+                    />
+                    Personalizado
+                  </label>
+                  <label className="text-sm">
+                    <input
+                      {...field}
+                      type="radio"
+                      value="Grupal"
+                      className="mr-2"
+                    />
+                    Grupal
+                  </label>
+                  <label className="text-sm">
+                    <input
+                      {...field}
+                      type="radio"
+                      value="Conversacional"
+                      className="mr-2"
+                    />
+                    Conversacional
+                  </label>
+                </div>
+              )}
+            />
+          </div>
+          {errors.classType && (
+            <p style={{color: 'red'}}>{errors.classType.message}</p>
+          )}
+        </div>
+
+        {/* Edad del estudiante */}
+        <div className="mb-4 flex flex-col rounded-lg p-2 bg-gray-200">
+          <label htmlFor="ageGroup" className="text-sm">
+            Edad del estudiante:
+          </label>
+          <div className="flex flex-col">
+            <Controller
+              control={control}
+              name="ageGroup"
+              render={({field}) => (
+                <div className="flex flex-col space-y-2">
+                  <label className="text-sm">
+                    <input
+                      {...field}
+                      type="radio"
+                      value="Niño"
+                      className="mr-2"
+                    />
+                    Niño
+                  </label>
+                  <label className="text-sm">
+                    <input
+                      {...field}
+                      type="radio"
+                      value="Adolescente"
+                      className="mr-2"
+                    />
+                    Adolescente
+                  </label>
+                  <label className="text-sm">
+                    <input
+                      {...field}
+                      type="radio"
+                      value="Adulto"
+                      className="mr-2"
+                    />
+                    Adulto
+                  </label>
+                </div>
+              )}
+            />
+          </div>
+          {errors.ageGroup && (
+            <p style={{color: 'red'}}>{errors.ageGroup.message}</p>
+          )}
+        </div>
+
         <div className="w-full flex justify-center">
           <button
             type="submit"

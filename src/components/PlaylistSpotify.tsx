@@ -10,7 +10,7 @@ const PlaylistSpotify: React.FC = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        paddingTop: 300,
+        paddingTop: 260,
         paddingBottom: 300,
       }}
     >
@@ -24,8 +24,8 @@ const PlaylistSpotify: React.FC = () => {
             className="pointer hover:scale-110 transition-transform duration-300 ease-in-out"
             src="/images/A-level-playlist.png"
             alt="A Level Playlist"
-            width={190}
-            height={190}
+            width={230}
+            height={230}
           />
         </a>
         <a
@@ -37,8 +37,8 @@ const PlaylistSpotify: React.FC = () => {
             className="pointer hover:scale-110 transition-transform duration-300 ease-in-out"
             src="/images/B-level-playlist.png"
             alt="B Level Playlist"
-            width={190}
-            height={190}
+            width={230}
+            height={230}
           />
         </a>
         <a
@@ -50,8 +50,8 @@ const PlaylistSpotify: React.FC = () => {
             className="pointer hover:scale-110 transition-transform duration-300 ease-in-out"
             src="/images/C-level-playlist.png"
             alt="C Level Playlist"
-            width={190}
-            height={190}
+            width={230}
+            height={230}
           />
         </a>
       </div>

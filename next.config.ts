@@ -1,6 +1,10 @@
 import type {NextConfig} from 'next';
+import withBundleAnalyzer from '@next/bundle-analyzer';
 
-const nextConfig: NextConfig = {
+const nextConfig: NextConfig = withBundleAnalyzer({
+  enabled: true,
+})({
+  swcMinify: true,
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -8,6 +12,6 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
-};
+});
 
 export default nextConfig;

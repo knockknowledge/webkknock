@@ -42,6 +42,8 @@ export async function sendMail(formData) {
                                                                   <p>Last Name: ${formData.lastName}</p>
                                                                   <p>Email: ${formData.email}</p>
                                                                   <p>Phone Number: ${formData.phone}</p>
+                                                                    <p>classType: ${formData?.classType}</p>
+                                                                    <p>ageGroup: ${formData?.ageGroup}</p>
                                                                   <p><br></p>
                                                                 
                                                               </div>

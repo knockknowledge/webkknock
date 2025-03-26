@@ -2,6 +2,7 @@
   "name": "web-knock-app",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^2.1.8",
     "@hookform/resolvers": "^4.1.0",
+    "@next/bundle-analyzer": "^15.2.4",
     "@next/third-parties": "^14.2.13",
     "@svgr/webpack": "^8.1.0",
     "axios": "^1.7.9",
@@ -24,6 +26,7 @@
     "react-google-recaptcha": "^3.1.0",
     "react-hook-form": "^7.54.2",
     "react-icons": "^5.3.0",
+    "sharp": "^0.33.5",
     "yup": "^1.6.1"
   },
   "devDependencies": {

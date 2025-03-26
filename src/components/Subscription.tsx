@@ -8,22 +8,22 @@ const Subscription: React.FC = () => {
   const data = [
     {
       title: 'Chill',
-      description: 'Lorem ipsum dolor sit amet.',
+      description: '3 clases por semana,',
       icon: '/icons/chill.svg', // Ruta desde la carpeta public
     },
     {
       title: 'Focused',
-      description: 'Lorem ipsum dolor sit amet.',
+      description: '4 clases por semana.',
       icon: '/icons/focused.svg',
     },
     {
       title: 'Immersion',
-      description: 'Lorem ipsum dolor sit amet.',
+      description: '5 clases por semana.',
       icon: '/icons/inmerse.svg',
     },
     {
       title: 'Mastery',
-      description: 'Lorem ipsum dolor sit amet.',
+      description: '6 clases por semana.',
       icon: '/icons/mastery.svg',
     },
   ];
