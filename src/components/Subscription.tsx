@@ -56,7 +56,7 @@ const Subscription: React.FC = () => {
               {plan.title}
             </h3>
             <p className="text-sm opacity-75 mt-2 text-white">
-              Lorem ipsum dolor sit amet.
+              {plan.description}
             </p>
           </div>
         ))}
