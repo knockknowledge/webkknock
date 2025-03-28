@@ -1,5 +1,5 @@
+'use client';
 import Hero from '@/components/Hero';
-import Testimonials from '@/components/Testimonials';
 import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 import Pricing from '@/components/Pricing/Pricing';
 import FAQ from '@/components/FAQ';

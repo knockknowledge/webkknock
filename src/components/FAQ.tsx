@@ -19,17 +19,6 @@ const FAQ: React.FC = () => {
   return (
     <section id="faq" className="py-10 lg:py-20">
       <div className="flex flex-col lg:flex-row gap-10">
-        {/* <div className="">
-                    <p className="hidden lg:block text-foreground-accent">FAQ&apos;S</p>
-                    <SectionTitle>
-                        <h2 className="my-3 !leading-snug lg:max-w-sm text-center lg:text-left">Frequently Asked Questions</h2>
-                    </SectionTitle>
-                    <p className="lg:mt-10 text-foreground-accent text-center lg:text-left">
-                        Ask us anything!
-                    </p>
-                    <a href="mailto:" className="mt-3 block text-xl lg:text-4xl text-secondary font-semibold hover:underline text-center lg:text-left">help@finwise.com</a>
-                </div> */}
-
         <div className="w-full lg:max-w-4xl mx-auto">
           {faqs.map((faq, index) => (
             <div key={index} className={`mb-3 rounded-lg text-white`}>
@@ -51,11 +40,17 @@ const FAQ: React.FC = () => {
                       )}
                     </DisclosureButton>
                     <DisclosurePanel
-                      className={`px-4 pt-4 pb-2 flex flex-col lg:flex-row items-center lg:items-stretch gap-4 lg:gap-6 bg-white  border-2 border-t-0 rounded-lg`}
+                      className={`px-4 pt-4 pb-2 flex flex-col ${
+                        faq.isColumn === true ? 'lg:flex-col' : 'lg:flex-row'
+                      } items-center lg:items-center gap-4 lg:gap-6 bg-white  border-2 border-t-0 rounded-lg w-[100%]`}
                     >
                       {/* Imagen - Ocupa la mitad en desktop */}
                       {faq.image && (
-                        <div className="w-full lg:w-1/2">
+                        <div
+                          className={`w-full md:w-1/2 ${
+                            faq.isReverse === true && 'lg:order-2'
+                          }`}
+                        >
                           <img
                             src={faq.image}
                             alt="Descripción"
@@ -66,7 +61,9 @@ const FAQ: React.FC = () => {
 
                       <div
                         className={`w-full flex-col text-black flex items-center ${
-                          faq.image ? 'lg:w-1/2' : 'lg:w-full'
+                          faq.image && faq.isColumn === false
+                            ? 'lg:w-1/2'
+                            : 'lg:w-full'
                         }`}
                       >
                         {/*  firts title */}

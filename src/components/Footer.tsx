@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="md:flex-1 flex md:justify-center w-[100%]">
-          <ul className="text-foreground-accent flex flex-wrap gap-4 md:gap-6 justify-center">
+          <ul className="text-foreground-accent flex md:flex-row flex-col flex-wrap gap-4 md:gap-6 justify-center">
             {footerDetails.quickLinks.map(link => (
               <li key={link.text}>
                 <Link

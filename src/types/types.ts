@@ -32,6 +32,8 @@ export interface IFAQ {
   title?: string;
   secondaryTitle?: string;
   image?: string;
+  isColumn?: boolean;
+  isReverse?: boolean;
 }
 
 export interface ITestimonial {
