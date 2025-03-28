@@ -12,7 +12,27 @@ import PlaylistSpotify from '@/components/PlaylistSpotify';
 import Subscription from '@/components/Subscription';
 import ContactForm from '@/components/ContactForm';
 
+import React, {useEffect, useState} from 'react';
+
 const HomePage: React.FC = () => {
+  const [bgSize, setBgSize] = useState('100% 100%');
+  const [paddingSize, setPaddingSize] = useState(260);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1000) {
+        setBgSize('100%');
+      } else {
+        setBgSize('70%');
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Llamamos a la función inicialmente
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <>
       <Hero />
@@ -54,7 +74,15 @@ const HomePage: React.FC = () => {
           description=""
           classes="-mt-40 relative z-10 flex justtify-center items-center flex-col"
         >
-          <ContactForm classes="py-4 w-[70%] " />
+          <div
+            style={{
+              width: bgSize,
+              // paddingTop: paddingSize,
+              // paddingBottom: paddingSize,
+            }}
+          >
+            <ContactForm classes="py-4 w-[100%]" />
+          </div>
         </Section>
       </Container>
     </>

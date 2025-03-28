@@ -1,17 +1,38 @@
 import Image from 'next/image';
+import {useState, useEffect} from 'react';
 
 const PlaylistSpotify: React.FC = () => {
+  const [bgSize, setBgSize] = useState('100% 100%');
+  const [paddingSize, setPaddingSize] = useState(260);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1000) {
+        setBgSize('cover');
+        setPaddingSize(350);
+      } else {
+        setBgSize('100% 100%');
+        setPaddingSize(260);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Llamamos a la función inicialmente
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <section
       id="spotify-playlist"
-      className="py-32 px-5"
+      className="py-32 px-5 "
       style={{
         backgroundImage: 'url(./images/bg-section-2.webp)',
-        backgroundSize: 'cover',
+        backgroundSize: bgSize,
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        paddingTop: 260,
-        paddingBottom: 300,
+        paddingTop: paddingSize,
+        paddingBottom: paddingSize,
       }}
     >
       <div className="mt-5 w-full flex flex-wrap flex-row items-center justify-evenly gap-5 sm:gap-10 logos-container">

@@ -74,3 +74,22 @@ h6 {
     rgba(0, 0, 0, 0) 100%
   );
 }
+
+/* .spotify-playlist-container {
+  position: relative;
+  overflow: visible;
+} */
+
+.spotify-playlist-container::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  right: -50px;
+  bottom: -50px;
+  background-image: url('/images/bg-section-2.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}

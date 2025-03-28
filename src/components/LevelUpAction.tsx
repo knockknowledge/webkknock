@@ -32,7 +32,7 @@ const LevelUpAction: React.FC = () => {
       }}
     >
       <div className="mt-1 w-full flex flex-wrap flex-col items-center justify-evenly gap-5 sm:gap-10 logos-container">
-        <h1 className="text-4xl text-center text-white md:text-6xl font-bold text-foreground">
+        <h1 className="text-4xl text-center text-white md:text-5xl font-bold text-foreground">
           {'!Haz tu nivelacion gratis hoy!'}
         </h1>
         <div>
