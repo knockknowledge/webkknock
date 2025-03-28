@@ -77,8 +77,6 @@ const HomePage: React.FC = () => {
           <div
             style={{
               width: bgSize,
-              // paddingTop: paddingSize,
-              // paddingBottom: paddingSize,
             }}
           >
             <ContactForm classes="py-4 w-[100%]" />

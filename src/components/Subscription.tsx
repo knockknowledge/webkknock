@@ -9,7 +9,7 @@ const Subscription: React.FC = () => {
     const handleResize = () => {
       if (window.innerWidth < 1000) {
         setBgSize('cover');
-        setPaddingSize(380);
+        setPaddingSize(320);
       } else {
         setBgSize('100% 100%');
         setPaddingSize(260);
@@ -61,13 +61,13 @@ const Subscription: React.FC = () => {
       <h2 className="text-5xl font-bold mb-10 text-center text-white">
         Suscripciones
       </h2>
-      <div className="flex flex-wrap justify-center gap-20 md:flex-nowrap">
+      <div className="flex flex-wrap justify-center md:gap-20  md:flex-nowrap">
         {data.map((plan, index) => (
           <div
             key={index}
             className="flex flex-col items-center text-white w-full md:w-auto"
           >
-            <div className="w-20 mx-10 h-20 text-red-500 flex items-center justify-center rounded-full text-lg font-semibold">
+            <div className="w-20 mx-10 my-5 h-20 flex items-center justify-center rounded-full">
               <Image
                 src={plan.icon}
                 alt={plan.title}
@@ -75,7 +75,7 @@ const Subscription: React.FC = () => {
                 height={100}
               />
             </div>
-            <h3 className="mt-4 text-xl font-semibold capitalize">
+            <h3 className="mt-0 text-xl font-semibold capitalize">
               {plan.title}
             </h3>
             <p className="text-sm opacity-75  text-white font-bold">
