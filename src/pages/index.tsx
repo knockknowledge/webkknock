@@ -70,7 +70,7 @@ const HomePage: React.FC = () => {
       <Container>
         <Section
           id="Contact"
-          title="Contactanos"
+          title="Contáctanos"
           description=""
           classes="-mt-40 relative z-10 flex justtify-center items-center flex-col"
         >

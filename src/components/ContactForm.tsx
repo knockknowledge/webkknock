@@ -130,7 +130,7 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
         {/* Tipo de clase */}
         <div className="mb-4 flex flex-col rounded-lg p-2 bg-gray-200">
           <label htmlFor="classType" className="text-sm">
-            Tipo de clase:
+            Modalidad:
           </label>
           <div className="flex flex-col">
             <Controller

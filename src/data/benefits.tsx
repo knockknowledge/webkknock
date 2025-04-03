@@ -16,7 +16,7 @@ export const benefits: IBenefit[] = [
   {
     title: '',
     description:
-      'Knock knowledge es una academia online especializada en la enseñanza del idioma ingles con profesores 100% capacitados, en continuo aprendizaje y desarrollo. Nuestra metodologia se adapta al mundialmente reconocido "estándar europeo del marco comun europeo de referencia para las lenguas (CEFR)" dividido en diferentes grados de aprendizaje los cuales son el A1-A2- B1-B2-C1 a lo largo de 22 niveles academicos adaptados para una formacion garantizada de personas bilingues al finalizar nuestro curso.',
+      'Knock Knowledge es una academia online especializada en la enseñanza del idioma inglés, con profesores 100% capacitados, en continuo aprendizaje y desarrollo. Nuestra metodología se adapta al mundialmente reconocido Estándar Europeo del Marco Común Europeo de Referencia para las Lenguas (CEFR), el cual se divide en diferentes grados de aprendizaje: A1, A2, B1, B2 y C1, distribuidos a lo largo de 22 niveles académicos. Estos niveles están diseñados para garantizar la formación de personas bilingües al finalizar nuestro curso.',
     bullets: [
       {
         title: 'Micro-Investing',

@@ -48,7 +48,7 @@ const FAQ: React.FC = () => {
                       {faq.image && (
                         <div
                           className={`w-full md:w-1/2 ${
-                            faq.isReverse === true && 'lg:order-2'
+                            faq.isReverse === true ? 'lg:order-2' : 'lg:order-1'
                           }`}
                         >
                           <img
@@ -64,6 +64,8 @@ const FAQ: React.FC = () => {
                           faq.image && faq.isColumn === false
                             ? 'lg:w-1/2'
                             : 'lg:w-full'
+                        } ${
+                          faq.isReverse === true ? 'lg:order-1' : 'lg:order-2'
                         }`}
                       >
                         {/*  firts title */}

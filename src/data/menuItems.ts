@@ -2,7 +2,7 @@ import {IMenuItem} from '../types/types';
 
 export const menuItems: IMenuItem[] = [
   {
-    text: 'Quienes Somos',
+    text: 'Quiénes somos',
     url: '#about',
   },
   {
@@ -18,7 +18,7 @@ export const menuItems: IMenuItem[] = [
     url: '#faq',
   },
   {
-    text: 'Contactanos',
+    text: 'Contáctanos',
     url: '#hero',
   },
 ];

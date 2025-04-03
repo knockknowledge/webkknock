@@ -82,20 +82,20 @@ const BenefitSection: React.FC<Props> = ({benefit, imageAtRight}: Props) => {
 
               <p className="mt-1.5 mx-auto lg:ml-0 leading-normal text-foreground-accent">
                 {/* {description} */}
-                Knock knowledge es una academia online especializada en la
-                enseñanza del idioma ingles con profesores 100% capacitados, en
-                continuo aprendizaje y desarrollo. Nuestra metodologia se adapta
+                Knock Knowledge es una academia online especializada en la
+                enseñanza del idioma inglés, con profesores 100% capacitados, en
+                continuo aprendizaje y desarrollo. Nuestra metodología se adapta
                 al mundialmente reconocido{' '}
                 <span className="font-bold">
-                  "estándar europeo del marco comun europeo de referencia para
-                  las lenguas (CEFR)"
+                  "Estándar Europeo del Marco Común Europeo de Referencia para
+                  las Lenguas (CEFR)"
                 </span>{' '}
-                dividido en diferentes grados de aprendizaje los cuales son el{' '}
+                dividido en diferentes grados de aprendizaje, los cuales son{' '}
                 <span className="font-bold">
-                  A1-A2- B1-B2-C1 a lo largo de 22 niveles
+                  A1, A2, B1, B2 y C1, distribuidos a lo largo de 22 niveles
                 </span>{' '}
-                academicos adaptados para una formacion garantizada de personas
-                bilingues al finalizar nuestro curso.
+                académicos, diseñados para garantizar una formación completa de
+                personas bilingües al finalizar nuestro curso.
               </p>
             </motion.div>
 
