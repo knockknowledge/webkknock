@@ -11,7 +11,7 @@ export const footerDetails: {
     'Empowering businesses with cutting-edge financial technology solutions.',
   quickLinks: [
     {
-      text: 'Quienes Somos',
+      text: 'Quiénes somos',
       url: '#about',
     },
     {
@@ -27,7 +27,7 @@ export const footerDetails: {
       url: '#faq',
     },
     {
-      text: 'Contactanos',
+      text: 'Contáctanos',
       url: '#hero',
     },
   ],

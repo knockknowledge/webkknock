@@ -12,7 +12,7 @@ const PlaylistSpotify: React.FC = () => {
         setPaddingSize(350);
       } else {
         setBgSize('100% 100%');
-        setPaddingSize(260);
+        setPaddingSize(190);
       }
     };
 
@@ -45,8 +45,8 @@ const PlaylistSpotify: React.FC = () => {
             className="pointer hover:scale-110 transition-transform duration-300 ease-in-out"
             src="/images/A-level-playlist.png"
             alt="A Level Playlist"
-            width={230}
-            height={230}
+            width={260}
+            height={260}
           />
         </a>
         <a
@@ -58,8 +58,8 @@ const PlaylistSpotify: React.FC = () => {
             className="pointer hover:scale-110 transition-transform duration-300 ease-in-out"
             src="/images/B-level-playlist.png"
             alt="B Level Playlist"
-            width={230}
-            height={230}
+            width={260}
+            height={260}
           />
         </a>
         <a
@@ -71,8 +71,8 @@ const PlaylistSpotify: React.FC = () => {
             className="pointer hover:scale-110 transition-transform duration-300 ease-in-out"
             src="/images/C-level-playlist.png"
             alt="C Level Playlist"
-            width={230}
-            height={230}
+            width={260}
+            height={260}
           />
         </a>
       </div>

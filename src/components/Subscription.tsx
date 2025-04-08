@@ -12,7 +12,7 @@ const Subscription: React.FC = () => {
         setPaddingSize(320);
       } else {
         setBgSize('100% 100%');
-        setPaddingSize(260);
+        setPaddingSize(190);
       }
     };
 
@@ -67,12 +67,14 @@ const Subscription: React.FC = () => {
             key={index}
             className="flex flex-col items-center text-white w-full md:w-auto"
           >
-            <div className="w-20 mx-10 my-5 h-20 flex items-center justify-center rounded-full">
+            <div className="w-[100px] mx-10 my-5 h-[100px] flex items-center justify-center rounded-full">
               <Image
                 src={plan.icon}
                 alt={plan.title}
                 width={100}
                 height={100}
+                loading="lazy"
+                style={{objectFit: 'contain'}}
               />
             </div>
             <h3 className="mt-0 text-xl font-semibold capitalize">

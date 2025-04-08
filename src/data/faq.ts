@@ -17,7 +17,7 @@ export const faqs: IFAQ[] = [
       'Ofrecemos 22 niveles académicos que garantizan un aprendizaje progresivo y eficaz del idioma, llevándote desde el nivel más básico hasta un nivel avanzado con fluidez y confianza. ¡Ven y descubre el nivel que te ayudará a alcanzar tus objetivos en el idioma inglés!',
     image: '/faqs_images/2.webp',
     isColumn: true,
-    isReverse: false,
+    isReverse: true,
   },
   {
     question: '¿Qué horarios manejan?',
@@ -36,7 +36,7 @@ export const faqs: IFAQ[] = [
       'En nuestra academia de inglés, te aseguramos un aprendizaje completo y efectivo. Al culminar cada uno de nuestros 22 niveles académicos, tendrás la oportunidad de demostrar tus habilidades a través de un test escrito y oral con vocabulario académico. Esto te permitirá evaluar tu progreso y garantizar tu éxito en el aprendizaje del idioma inglés. ¡No te quedes atrás y demuestra todo lo que has aprendido con nosotros!',
     image: '/faqs_images/3.webp',
     isColumn: true,
-    isReverse: false,
+    isReverse: true,
   },
   {
     question: '¿Cómo es el placement test?',
@@ -54,7 +54,7 @@ export const faqs: IFAQ[] = [
     secondaryTitle: 'Modalidad personalizada',
     secondaryAnswer:
       'Es ideal para aquellos estudiantes que buscan un enfoque más individualizado y adaptado a sus necesidades y ritmo de aprendizaje. En este entorno, los estudiantes tienen la oportunidad de trabajar de manera más cercana con profesores profesionales que pueden proporcionar atención personalizada y ayudarlos a avanzar rápidamente en su aprendizaje del idioma. También tienen la libertad de profundizar en temas específicos de su interés, lo que les permite tener un mayor control sobre su propio proceso de aprendizaje.',
-    image: '/faqs_images/5.webp',
+    image: '/images/webKnock-logo-nav.png',
     isColumn: true,
     isReverse: false,
   },
