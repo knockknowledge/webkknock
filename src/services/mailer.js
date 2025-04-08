@@ -1,11 +1,13 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+dotenv.config(); // Carga las variables de entorno desde .env
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.ethereal.email',
-  port: 587,
+  host: process.env.MAIL_HOST || 'smtp.ethereal.email',
+  port: process.env.MAIL_PORT || 587,
   auth: {
-    user: 'dayne.schumm@ethereal.email',
-    pass: 'qxpStUthtaTjDBcPDd',
+    user: process.env.MAIL_ADDRESS,
+    pass: process.env.MAIL_PASSWORD,
   },
 });
 
@@ -186,8 +188,8 @@ export async function sendMail(formData) {
 
   // Configura las opciones de correo
   let mailOptions = {
-    from: 'dayne.schumm@ethereal.email',
-    to: 'dayne.schumm@ethereal.email',
+    from: process.env.MAIL_ADDRESS,
+    to: process.env.MAIL_ADDRESS,
     subject: 'Regisro de cliente',
     html: template,
   };
