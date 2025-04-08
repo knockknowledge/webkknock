@@ -43,7 +43,7 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await fetch('/api/endpoint', {
+      const response = await fetch('/api/client/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
