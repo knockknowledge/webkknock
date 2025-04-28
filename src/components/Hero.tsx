@@ -44,7 +44,7 @@ const Hero: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative flex items-center justify-center pb-32 pt-32 md:pt-40 px-5 bg-cover bg-center"
+      className="relative flex items-center justify-center pb-16 pt-16 md:pt-24 px-5 bg-cover bg-center"
     >
       {/* Contenedor de imágenes precargadas */}
       <div className="absolute left-0 top-0 bottom-0 -z-10 w-full h-full">

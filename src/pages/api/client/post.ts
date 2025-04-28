@@ -5,6 +5,7 @@ export default async function handler(req: any, res: any) {
   try {
     // Recibimos los datos del cuerpo de la solicitud
     const data = req.body;
+    console.log('Datos recibidos:', data);
 
     // Validación de los datos recibidos
     if (!data.firstName || !data.lastName || !data.email || !data.phone) {
@@ -32,7 +33,7 @@ export default async function handler(req: any, res: any) {
       ageGroup: data.ageGroup,
     });
 
-    await sendMail(newRegister);
+    await sendMail(data);
 
     // Responder con el éxito
     return res

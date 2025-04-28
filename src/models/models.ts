@@ -24,6 +24,16 @@ const clientRegisterSchema = new Schema(
       required: [true, 'El teléfono es requerido'],
       trim: true,
     },
+    classType: {
+      type: String,
+      required: [true, 'El tipo de clase es requerido'],
+      enum: ['Personalizado', 'Grupal', 'Conversacional'], // <- Aquí corregido
+    },
+    ageGroup: {
+      type: String,
+      required: [true, 'El grupo de edad es requerido'],
+      enum: ['Niño', 'Adolescente', 'Adulto'], // <- Aquí corregido
+    },
   },
   {
     timestamps: true,

@@ -18,6 +18,9 @@ const colors = [
 const FAQ: React.FC = () => {
   return (
     <section id="faq" className="py-10 lg:py-20">
+      <SectionTitle>
+        <h2 className="text-center mb-4">Preguntas Frecuentes</h2>
+      </SectionTitle>
       <div className="flex flex-col lg:flex-row gap-10">
         <div className="w-full lg:max-w-4xl mx-auto">
           {faqs.map((faq, index) => (

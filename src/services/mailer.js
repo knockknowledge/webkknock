@@ -12,6 +12,8 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function sendMail(formData) {
+  console.log('formData', formData);
+
   const template = `
   <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:660px" role="presentation">
   <tbody>
