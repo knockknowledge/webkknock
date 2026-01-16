@@ -1,3 +1,4 @@
+import {randomUUID} from 'crypto';
 import ClientModel from '../../../models/models';
 import {sendMail} from '../../../services/mailer';
 import {connectDB} from '../../../services/mongoose';
@@ -13,6 +14,24 @@ export const config = {
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 5;
 const rateLimitState = new Map<string, {count: number; start: number}>();
+
+const sanitizeErrorMessage = (message?: string) => {
+  if (typeof message !== 'string') {
+    return undefined;
+  }
+  return message.replace(
+    /(mongodb(?:\+srv)?:\/\/)([^@]+)@/g,
+    '$1***:***@',
+  );
+};
+
+const logError = (requestId: string, scope: string, error: any) => {
+  console.error(`[${requestId}] ${scope}`, {
+    name: error?.name,
+    code: error?.code,
+    message: sanitizeErrorMessage(error?.message),
+  });
+};
 
 const getClientIp = (req: any) => {
   const forwarded = req.headers['x-forwarded-for'];
@@ -36,63 +55,168 @@ const isRateLimited = (ip: string) => {
   return record.count > RATE_LIMIT_MAX;
 };
 
+const verifyRecaptcha = async (token: string) => {
+  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  if (!secret) {
+    const error = new Error('RECAPTCHA_SECRET_KEY no está configurada.');
+    // @ts-ignore - adjuntamos un código para identificar el error
+    error.code = 'RECAPTCHA_NOT_CONFIGURED';
+    throw error;
+  }
+
+  const params = new URLSearchParams();
+  params.set('secret', secret);
+  params.set('response', token);
+
+  const response = await fetch(
+    'https://www.google.com/recaptcha/api/siteverify',
+    {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: params.toString(),
+    },
+  );
+
+  if (!response.ok) {
+    const error = new Error('No se pudo verificar reCAPTCHA.');
+    // @ts-ignore - adjuntamos un código para identificar el error
+    error.code = 'RECAPTCHA_VERIFY_FAILED';
+    throw error;
+  }
+
+  return response.json();
+};
+
 export default async function handler(req: any, res: any) {
+  const requestId = randomUUID();
+  res.setHeader('x-request-id', requestId);
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
-    return res.status(405).json({error: 'Método no permitido.'});
+    return res
+      .status(405)
+      .json({error: 'Método no permitido.', code: 'METHOD_NOT_ALLOWED'});
   }
 
   const clientIp = getClientIp(req);
   if (isRateLimited(clientIp)) {
     return res
       .status(429)
-      .json({error: 'Demasiadas solicitudes. Intenta más tarde.'});
+      .json({
+        error: 'Demasiadas solicitudes. Intenta más tarde.',
+        code: 'RATE_LIMITED',
+      });
+  }
+
+  // Recibimos los datos del cuerpo de la solicitud
+  const data = req.body ?? {};
+
+  // Validación de los datos recibidos
+  const campos = [
+    'firstName',
+    'lastName',
+    'email',
+    'phone',
+    'classType',
+    'ageGroup',
+  ];
+  const camposFaltantes = campos.filter(campo => !data[campo]);
+  if (camposFaltantes.length) {
+    return res
+      .status(400)
+      .json({error: 'Faltan campos requeridos.', code: 'MISSING_FIELDS'});
+  }
+
+  if (!data.recaptchaToken) {
+    return res.status(400).json({
+      error: 'Confirma que no eres un robot.',
+      code: 'RECAPTCHA_REQUIRED',
+    });
   }
 
   try {
-    // Recibimos los datos del cuerpo de la solicitud
-    const data = req.body ?? {};
-
-    // Validación de los datos recibidos
-    const campos = [
-      'firstName',
-      'lastName',
-      'email',
-      'phone',
-      'classType',
-      'ageGroup',
-    ];
-    const camposFaltantes = campos.filter(campo => !data[campo]);
-    if (camposFaltantes.length) {
-      return res.status(400).json({error: 'Faltan campos requeridos.'});
+    const recaptchaResult = await verifyRecaptcha(data.recaptchaToken);
+    if (!recaptchaResult?.success) {
+      return res.status(400).json({
+        error: 'No pudimos validar reCAPTCHA.',
+        code: 'RECAPTCHA_INVALID',
+      });
     }
-
-    await connectDB();
-
-    // Crear el nuevo registro en la base de datos
-    const newRegister = new ClientModel({
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      phone: data.phone,
-      classType: data.classType,
-      ageGroup: data.ageGroup,
+  } catch (error: any) {
+    logError(requestId, 'recaptcha', error);
+    const errorCode =
+      error?.code === 'RECAPTCHA_NOT_CONFIGURED'
+        ? 'RECAPTCHA_NOT_CONFIGURED'
+        : 'RECAPTCHA_VERIFY_FAILED';
+    return res.status(502).json({
+      error: 'No se pudo verificar reCAPTCHA.',
+      code: errorCode,
+      requestId,
     });
+  }
 
+  const clientPayload = {
+    firstName: data.firstName,
+    lastName: data.lastName,
+    email: data.email,
+    phone: data.phone,
+    classType: data.classType,
+    ageGroup: data.ageGroup,
+  };
+
+  try {
+    await connectDB();
+  } catch (error: any) {
+    logError(requestId, 'connectDB', error);
+    return res.status(500).json({
+      error: 'No se pudo conectar a la base de datos.',
+      code:
+        error?.code === 'DB_NOT_CONFIGURED'
+          ? 'DB_NOT_CONFIGURED'
+          : 'DB_CONNECTION_FAILED',
+      requestId,
+    });
+  }
+
+  // Crear el nuevo registro en la base de datos
+  const newRegister = new ClientModel(clientPayload);
+
+  try {
     await newRegister.save();
-    await sendMail(data);
-
-    // Responder con el éxito
-    return res.status(201).json({message: 'Cliente registrado exitosamente!'});
   } catch (error: any) {
     if (error?.code === 11000) {
-      return res.status(409).json({error: 'El correo ya está registrado.'});
+      return res
+        .status(409)
+        .json({error: 'El correo ya está registrado.', code: 'DUPLICATE_EMAIL'});
     }
 
-    if (error.name === 'ValidationError') {
-      return res.status(422).json({error: 'Datos de entrada no válidos.'});
+    if (error?.name === 'ValidationError') {
+      return res
+        .status(422)
+        .json({error: 'Datos de entrada no válidos.', code: 'VALIDATION_ERROR'});
     }
 
-    return res.status(500).json({error: 'Error interno del servidor.'});
+    logError(requestId, 'save', error);
+    return res.status(500).json({
+      error: 'No se pudo guardar el registro.',
+      code: 'DB_SAVE_FAILED',
+      requestId,
+    });
   }
+
+  try {
+    await sendMail(clientPayload);
+  } catch (error: any) {
+    logError(requestId, 'sendMail', error);
+    return res.status(502).json({
+      error: 'No se pudo enviar el correo.',
+      code: 'MAIL_SEND_FAILED',
+      requestId,
+    });
+  }
+
+  // Responder con el éxito
+  return res
+    .status(201)
+    .json({message: 'Cliente registrado exitosamente!', requestId});
 }

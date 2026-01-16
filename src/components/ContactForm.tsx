@@ -1,6 +1,8 @@
 'use client';
 import React from 'react';
+import {Dialog, Transition} from '@headlessui/react';
 import {useForm, Controller} from 'react-hook-form';
+import ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import clsx from 'clsx';
@@ -15,6 +17,7 @@ const schema = Yup.object({
   phone: Yup.string().required('El teléfono es requerido'),
   classType: Yup.string().required('Selecciona el tipo de clase'),
   ageGroup: Yup.string().required('Selecciona la edad del estudiante'),
+  recaptchaToken: Yup.string().required('Confirma que no eres un robot'),
 }).required();
 
 interface FormData {
@@ -24,6 +27,7 @@ interface FormData {
   phone: string;
   classType: string;
   ageGroup: string;
+  recaptchaToken: string;
 }
 
 interface ContactFormProps {
@@ -31,15 +35,50 @@ interface ContactFormProps {
   classes?: string; // Clases CSS opcionales
 }
 
+type ModalState = {
+  open: boolean;
+  type: 'success' | 'error';
+  title: string;
+  message: string;
+  code?: string;
+  requestId?: string;
+};
+
 const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
   // Usar react-hook-form con Yup para la validación
   const {
     control,
     handleSubmit,
+    reset,
+    register,
+    setValue,
+    watch,
     formState: {errors, isSubmitting},
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
+
+  const recaptchaRef = React.useRef<any>(null);
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
+  const recaptchaAvailable = Boolean(recaptchaSiteKey);
+  const recaptchaTokenValue = watch('recaptchaToken');
+
+  const [modalState, setModalState] = React.useState<ModalState>({
+    open: false,
+    type: 'success',
+    title: '',
+    message: '',
+  });
+
+  const handleRecaptchaChange = (token: string | null) => {
+    setValue('recaptchaToken', token || '', {shouldValidate: true});
+  };
+
+  const closeModal = () =>
+    setModalState(prev => ({
+      ...prev,
+      open: false,
+    }));
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -50,21 +89,165 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
         },
         body: JSON.stringify(data),
       });
+      const payload = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error('Error al enviar el formulario');
+        setModalState({
+          open: true,
+          type: 'error',
+          title: 'No pudimos enviar tu registro',
+          message: payload?.error || 'Error al enviar el formulario.',
+          code: payload?.code,
+          requestId: payload?.requestId,
+        });
+        return;
       }
 
-      alert('Formulario enviado con éxito');
+      reset();
+      recaptchaRef.current?.reset?.();
+      setModalState({
+        open: true,
+        type: 'success',
+        title: 'Registro enviado',
+        message:
+          payload?.message ||
+          'Gracias por registrarte. Te contactaremos muy pronto.',
+        requestId: payload?.requestId,
+      });
     } catch (error) {
-      alert('Error al enviar el formulario');
+      setModalState({
+        open: true,
+        type: 'error',
+        title: 'No pudimos enviar tu registro',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'Error al enviar el formulario.',
+      });
     }
   };
 
   return (
     <section className={clsx('bg-white px-8 rounded-lg shadow-lg', classes)}>
+      <Transition appear show={modalState.open} as={React.Fragment}>
+        <Dialog as="div" className="relative z-50" onClose={closeModal}>
+          <Transition.Child
+            as={React.Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={React.Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <div className="flex items-start gap-3">
+                    <div
+                      className={clsx(
+                        'flex h-10 w-10 items-center justify-center rounded-full',
+                        modalState.type === 'success' &&
+                          'bg-emerald-100 text-emerald-700',
+                        modalState.type === 'error' &&
+                          'bg-rose-100 text-rose-700',
+                      )}
+                    >
+                      {modalState.type === 'success' ? (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          className="h-5 w-5"
+                          aria-hidden="true"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          className="h-5 w-5"
+                          aria-hidden="true"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-lg font-semibold text-slate-900"
+                      >
+                        {modalState.title}
+                      </Dialog.Title>
+                      <Dialog.Description className="mt-2 text-sm text-slate-600">
+                        {modalState.message}
+                      </Dialog.Description>
+                      {(modalState.code || modalState.requestId) && (
+                        <div className="mt-3 rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-500">
+                          {modalState.code && (
+                            <div className="font-mono">
+                              Codigo: {modalState.code}
+                            </div>
+                          )}
+                          {modalState.requestId && (
+                            <div className="font-mono">
+                              ID: {modalState.requestId}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={closeModal}
+                      className={clsx(
+                        'rounded-lg px-4 py-2 text-sm font-medium text-white',
+                        modalState.type === 'success'
+                          ? 'bg-emerald-500 hover:bg-emerald-600'
+                          : 'bg-rose-500 hover:bg-rose-600',
+                      )}
+                    >
+                      Cerrar
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
       {title && <h2 className="text-blue-500 mb-5">{title}</h2>}
       <form onSubmit={handleSubmit(onSubmit)}>
+        <input type="hidden" {...register('recaptchaToken')} />
         <div className="mb-4 flex flex-col rounded-lg p-2 bg-gray-200">
           <label htmlFor="firstName">Nombre:</label>
           <Controller
@@ -221,14 +404,36 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
           )}
         </div>
 
+        <div className="mb-4 flex flex-col rounded-lg p-2 bg-gray-200">
+          <label className="text-sm">Verificación:</label>
+          {recaptchaAvailable ? (
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={recaptchaSiteKey}
+              onChange={handleRecaptchaChange}
+              onExpired={() => handleRecaptchaChange(null)}
+            />
+          ) : (
+            <p className="text-sm text-red-600">
+              Falta configurar reCAPTCHA.
+            </p>
+          )}
+          {errors.recaptchaToken && (
+            <p style={{color: 'red'}}>{errors.recaptchaToken.message}</p>
+          )}
+        </div>
+
         <div className="w-full flex justify-center">
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={
+              isSubmitting || !recaptchaAvailable || !recaptchaTokenValue
+            }
             aria-busy={isSubmitting}
             className={clsx(
               'flex justify-center bg-blue-300 p-4 rounded-lg text-white hover:bg-blue-400 w-full',
-              isSubmitting && 'opacity-60 cursor-not-allowed',
+              (isSubmitting || !recaptchaAvailable || !recaptchaTokenValue) &&
+                'opacity-60 cursor-not-allowed',
             )}
           >
             {isSubmitting ? 'Enviando...' : 'Enviar'}
