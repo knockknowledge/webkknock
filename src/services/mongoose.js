@@ -8,7 +8,7 @@ const sanitizeMongoUri = uri =>
 export const connectDB = async () => {
   if (!MONGODB_URI) {
     const error = new Error('MONGODB_URI no está configurada.');
-    // @ts-ignore - adjuntamos un código para identificar el error
+    // @ts-expect-error - adjuntamos un código para identificar el error
     error.code = 'DB_NOT_CONFIGURED';
     throw error;
   }

@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import {BsFillCheckCircleFill} from 'react-icons/bs';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -12,7 +11,7 @@ interface Props {
 }
 
 const PricingColumn: React.FC<Props> = ({tier, highlight, color}: Props) => {
-  const {name, price, features, image, description} = tier;
+  const {name, image, description} = tier;
 
   return (
     <div
@@ -23,12 +22,13 @@ const PricingColumn: React.FC<Props> = ({tier, highlight, color}: Props) => {
     >
       <div className="p-6  rounded-t-xl flex flex-col justify-center items-center">
         <div className="w-40 h-40 rounded-full bg-gray-200 mb-6 flex justify-center items-center overflow-hidden">
-          <img
+          <Image
             src={image}
-            alt="Logo"
+            alt={`${name} logo`}
             className="object-cover w-full h-auto rounded-lg"
             width={160}
             height={160}
+            sizes="160px"
           />
         </div>
 

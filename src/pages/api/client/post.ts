@@ -1,4 +1,5 @@
 import {randomUUID} from 'crypto';
+import {NextApiRequest, NextApiResponse} from 'next';
 import ClientModel from '../../../models/models';
 import {sendMail} from '../../../services/mailer';
 import {connectDB} from '../../../services/mongoose';
@@ -25,15 +26,94 @@ const sanitizeErrorMessage = (message?: string) => {
   );
 };
 
-const logError = (requestId: string, scope: string, error: any) => {
+const logError = (requestId: string, scope: string, error: unknown) => {
+  const errorObj =
+    error && typeof error === 'object'
+      ? (error as {name?: unknown; code?: unknown; message?: unknown})
+      : {};
+
   console.error(`[${requestId}] ${scope}`, {
-    name: error?.name,
-    code: error?.code,
-    message: sanitizeErrorMessage(error?.message),
+    name: typeof errorObj.name === 'string' ? errorObj.name : undefined,
+    code: errorObj.code,
+    message: sanitizeErrorMessage(
+      typeof errorObj.message === 'string' ? errorObj.message : undefined,
+    ),
   });
 };
 
-const getClientIp = (req: any) => {
+const getErrorCode = (error: unknown) => {
+  if (error && typeof error === 'object' && 'code' in error) {
+    return (error as {code?: unknown}).code;
+  }
+  return undefined;
+};
+
+const getErrorName = (error: unknown) => {
+  if (error && typeof error === 'object' && 'name' in error) {
+    const name = (error as {name?: unknown}).name;
+    return typeof name === 'string' ? name : undefined;
+  }
+  return undefined;
+};
+
+type ClientPayload = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  classType: string;
+  ageGroup: string;
+};
+
+const logMailEvent = (
+  requestId: string,
+  stage: 'queued' | 'sent' | 'config-warning',
+  details: Record<string, unknown>,
+) => {
+  const baseDetails = {
+    to: process.env.MAIL_ADDRESS,
+    from: process.env.MAIL_ADDRESS,
+    host: process.env.MAIL_HOST,
+    port: process.env.MAIL_PORT,
+    ...details,
+  };
+
+  if (stage === 'config-warning') {
+    console.warn(`[${requestId}] mail:${stage}`, baseDetails);
+    return;
+  }
+
+  console.info(`[${requestId}] mail:${stage}`, baseDetails);
+};
+
+const sendMailInBackground = (payload: ClientPayload, requestId: string) => {
+  const missingMailEnv = ['MAIL_ADDRESS', 'MAIL_PASSWORD'].filter(
+    key => !process.env[key],
+  );
+
+  if (missingMailEnv.length) {
+    logMailEvent(requestId, 'config-warning', {missingMailEnv});
+  }
+
+  const startedAt = Date.now();
+  logMailEvent(requestId, 'queued', {clientEmail: payload.email});
+
+  // Desacoplamos el envío para que no bloquee la respuesta al usuario
+  void sendMail(payload)
+    .then(info => {
+      logMailEvent(requestId, 'sent', {
+        messageId: info?.messageId,
+        accepted: info?.accepted,
+        rejected: info?.rejected,
+        durationMs: Date.now() - startedAt,
+      });
+    })
+    .catch(error => {
+      logError(requestId, 'sendMail', error);
+    });
+};
+
+const getClientIp = (req: NextApiRequest) => {
   const forwarded = req.headers['x-forwarded-for'];
   if (typeof forwarded === 'string') {
     return forwarded.split(',')[0].trim();
@@ -55,7 +135,10 @@ const isRateLimited = (ip: string) => {
   return record.count > RATE_LIMIT_MAX;
 };
 
-export default async function handler(req: any, res: any) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const requestId = randomUUID();
   res.setHeader('x-request-id', requestId);
 
@@ -77,7 +160,7 @@ export default async function handler(req: any, res: any) {
   }
 
   // Recibimos los datos del cuerpo de la solicitud
-  const data = req.body ?? {};
+  const data = (req.body ?? {}) as Partial<ClientPayload>;
 
   // Validación de los datos recibidos
   const campos = [
@@ -106,12 +189,13 @@ export default async function handler(req: any, res: any) {
 
   try {
     await connectDB();
-  } catch (error: any) {
+  } catch (error: unknown) {
     logError(requestId, 'connectDB', error);
+    const errorCode = getErrorCode(error);
     return res.status(500).json({
       error: 'No se pudo conectar a la base de datos.',
       code:
-        error?.code === 'DB_NOT_CONFIGURED'
+        errorCode === 'DB_NOT_CONFIGURED'
           ? 'DB_NOT_CONFIGURED'
           : 'DB_CONNECTION_FAILED',
       requestId,
@@ -123,14 +207,15 @@ export default async function handler(req: any, res: any) {
 
   try {
     await newRegister.save();
-  } catch (error: any) {
-    if (error?.code === 11000) {
+  } catch (error: unknown) {
+    const errorCode = getErrorCode(error);
+    if (errorCode === 11000 || errorCode === '11000') {
       return res
         .status(409)
         .json({error: 'El correo ya está registrado.', code: 'DUPLICATE_EMAIL'});
     }
 
-    if (error?.name === 'ValidationError') {
+    if (getErrorName(error) === 'ValidationError') {
       return res
         .status(422)
         .json({error: 'Datos de entrada no válidos.', code: 'VALIDATION_ERROR'});
@@ -144,14 +229,10 @@ export default async function handler(req: any, res: any) {
     });
   }
 
-  try {
-    await sendMail(clientPayload);
-  } catch (error: any) {
-    logError(requestId, 'sendMail', error);
-  }
+  sendMailInBackground(clientPayload, requestId);
 
   // Responder con el éxito
   return res
     .status(201)
-    .json({message: 'Cliente registrado exitosamente!', requestId});
+    .json({message: 'Registro guardado con éxito.', requestId});
 }

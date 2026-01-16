@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import React from 'react';
-import {FaFingerprint} from 'react-icons/fa';
 import Image from 'next/image';
 
 import {siteDetails} from '@/data/siteDetails';

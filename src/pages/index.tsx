@@ -16,7 +16,6 @@ import React, {useEffect, useState} from 'react';
 
 const HomePage: React.FC = () => {
   const [bgSize, setBgSize] = useState('100% 100%');
-  const [paddingSize, setPaddingSize] = useState(260);
 
   useEffect(() => {
     const handleResize = () => {

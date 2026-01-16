@@ -1,10 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {motion} from 'framer-motion';
-import {footerDetails} from '@/data/footer';
-import Link from 'next/link';
-import {getPlatformIconByName} from '../utils/utils';
-import AppStoreButton from './AppStoreButton';
-import PlayStoreButton from './PlayStoreButton';
 
 import {heroDetails} from '@/data/hero';
 import ContactForm from './ContactForm';
@@ -19,16 +14,12 @@ const backgroundImages = [
 
 const Hero: React.FC = () => {
   const [currentImage, setCurrentImage] = useState(0);
-  const [loadedImages, setLoadedImages] = useState<string[]>([]);
 
   // Precargar imágenes
   useEffect(() => {
     backgroundImages.forEach(image => {
       const img = new Image();
       img.src = image;
-      img.onload = () => {
-        setLoadedImages(prev => [...prev, image]);
-      };
     });
   }, []);
 

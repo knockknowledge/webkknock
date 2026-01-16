@@ -92,11 +92,10 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
       setModalState({
         open: true,
         type: 'success',
-        title: 'Registro enviado',
+        title: 'Registro guardado',
         message:
           payload?.message ||
-          'Gracias por registrarte. Te contactaremos muy pronto.',
-        requestId: payload?.requestId,
+          'El registro fue guardado con éxito. Te contactaremos muy pronto.',
       });
     } catch (error) {
       setModalState({
@@ -196,12 +195,13 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
                       <Dialog.Description className="mt-2 text-sm text-slate-600">
                         {modalState.message}
                       </Dialog.Description>
-                      {(modalState.code || modalState.requestId) && (
-                        <div className="mt-3 rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-500">
-                          {modalState.code && (
-                            <div className="font-mono">
-                              Codigo: {modalState.code}
-                            </div>
+                      {modalState.type === 'error' &&
+                        (modalState.code || modalState.requestId) && (
+                          <div className="mt-3 rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-500">
+                            {modalState.code && (
+                              <div className="font-mono">
+                                Codigo: {modalState.code}
+                              </div>
                           )}
                           {modalState.requestId && (
                             <div className="font-mono">

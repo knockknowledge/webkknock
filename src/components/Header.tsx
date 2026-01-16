@@ -4,11 +4,8 @@ import Link from 'next/link';
 import React, {useState} from 'react';
 import {Transition} from '@headlessui/react';
 import {HiOutlineXMark, HiBars3} from 'react-icons/hi2';
-import {FaFingerprint} from 'react-icons/fa';
 import Image from 'next/image';
 
-import Container from './Container';
-import {siteDetails} from '@/data/siteDetails';
 import {menuItems} from '@/data/menuItems';
 
 const Header: React.FC = () => {

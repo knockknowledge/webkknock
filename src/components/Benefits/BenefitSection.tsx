@@ -3,8 +3,6 @@ import Image from 'next/image';
 import clsx from 'clsx';
 import {motion, Variants} from 'framer-motion';
 
-import BenefitBullet from './BenefitBullet';
-import SectionTitle from '../SectionTitle';
 import {IBenefit} from '../../types/types';
 
 interface Props {
@@ -47,7 +45,7 @@ export const childVariants = {
 };
 
 const BenefitSection: React.FC<Props> = ({benefit, imageAtRight}: Props) => {
-  const {title, description, imageSrc, bullets} = benefit;
+  const {title, imageSrc} = benefit;
 
   return (
     <section className="benefit-section">
@@ -72,7 +70,7 @@ const BenefitSection: React.FC<Props> = ({benefit, imageAtRight}: Props) => {
               <div className="flex justify-center">
                 <Image
                   src={imageSrc}
-                  alt="title"
+                  alt={title || 'Benefit image'}
                   width={300}
                   height={300}
                   quality={100}
@@ -87,8 +85,8 @@ const BenefitSection: React.FC<Props> = ({benefit, imageAtRight}: Props) => {
                 continuo aprendizaje y desarrollo. Nuestra metodología se adapta
                 al mundialmente reconocido{' '}
                 <span className="font-bold">
-                  "Estándar Europeo del Marco Común Europeo de Referencia para
-                  las Lenguas (CEFR)"
+                  &quot;Estándar Europeo del Marco Común Europeo de Referencia
+                  para las Lenguas (CEFR)&quot;
                 </span>{' '}
                 dividido en diferentes grados de aprendizaje, los cuales son{' '}
                 <span className="font-bold">

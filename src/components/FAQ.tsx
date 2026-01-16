@@ -54,10 +54,14 @@ const FAQ: React.FC = () => {
                             faq.isReverse === true ? 'lg:order-2' : 'lg:order-1'
                           }`}
                         >
-                          <img
+                          <Image
                             src={faq.image}
-                            alt="Descripción"
+                            alt={faq.title || faq.question}
                             className="w-full h-auto object-cover rounded-lg"
+                            width={800}
+                            height={450}
+                            sizes="(min-width: 1024px) 50vw, 100vw"
+                            priority={index === 0}
                           />
                         </div>
                       )}
