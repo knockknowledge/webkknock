@@ -1,20 +1,21 @@
-import nodemailer from 'nodemailer';
+import {Resend} from 'resend';
 import dotenv from 'dotenv';
 dotenv.config(); // Carga las variables de entorno desde .env
 
-const mailPort = Number(process.env.MAIL_PORT || 587);
-const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST || 'smtp.ethereal.email',
-  port: mailPort,
-  secure: mailPort === 465 || process.env.MAIL_SECURE === 'true',
-  connectionTimeout: 8000,
-  auth: {
-    user: process.env.MAIL_ADDRESS,
-    pass: process.env.MAIL_PASSWORD,
-  },
-});
+const resendApiKey = process.env.RESEND_API_KEY;
+const mailFrom = process.env.MAIL_FROM || process.env.MAIL_ADDRESS;
+const mailTo = process.env.MAIL_TO || process.env.MAIL_ADDRESS;
+
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 export async function sendMail(formData) {
+  if (!resend || !mailFrom || !mailTo) {
+    const error = new Error('Resend no está configurado.');
+    // @ts-expect-error: añadimos código de error
+    error.code = 'MAIL_NOT_CONFIGURED';
+    throw error;
+  }
+
   const template = `
   <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:660px" role="presentation">
   <tbody>
@@ -189,14 +190,25 @@ export async function sendMail(formData) {
 </table>
   `;
 
-  // Configura las opciones de correo
-  let mailOptions = {
-    from: process.env.MAIL_ADDRESS,
-    to: process.env.MAIL_ADDRESS,
-    replyTo: process.env.MAIL_ADDRESS,
-    subject: 'Regisro de cliente',
+  const {data, error} = await resend.emails.send({
+    from: mailFrom,
+    to: mailTo,
+    subject: 'Registro de cliente',
     html: template,
-  };
+    reply_to: formData.email,
+  });
 
-  return transporter.sendMail(mailOptions);
+  if (error) {
+    const err = new Error(error.message);
+    err.name = error.name || 'MailSendError';
+    // @ts-expect-error: propagamos el código/status si existe
+    err.code = error.statusCode || error.code;
+    throw err;
+  }
+
+  return {
+    messageId: data?.id,
+    accepted: mailTo ? [mailTo] : [],
+    rejected: [],
+  };
 }

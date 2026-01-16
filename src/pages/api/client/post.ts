@@ -71,8 +71,9 @@ const logMailEvent = (
   details: Record<string, unknown>,
 ) => {
   const baseDetails = {
-    to: process.env.MAIL_ADDRESS,
-    from: process.env.MAIL_ADDRESS,
+    provider: process.env.MAIL_PROVIDER || (process.env.RESEND_API_KEY ? 'resend' : 'smtp'),
+    to: process.env.MAIL_TO || process.env.MAIL_ADDRESS,
+    from: process.env.MAIL_FROM || process.env.MAIL_ADDRESS,
     host: process.env.MAIL_HOST,
     port: process.env.MAIL_PORT,
     ...details,
@@ -87,9 +88,13 @@ const logMailEvent = (
 };
 
 const sendMailInBackground = (payload: ClientPayload, requestId: string) => {
-  const missingMailEnv = ['MAIL_ADDRESS', 'MAIL_PASSWORD'].filter(
-    key => !process.env[key],
-  );
+  const hasFrom = process.env.MAIL_FROM || process.env.MAIL_ADDRESS;
+  const hasTo = process.env.MAIL_TO || process.env.MAIL_ADDRESS;
+  const missingMailEnv = [
+    !process.env.RESEND_API_KEY ? 'RESEND_API_KEY' : null,
+    !hasFrom ? 'MAIL_FROM' : null,
+    !hasTo ? 'MAIL_TO' : null,
+  ].filter(Boolean);
 
   if (missingMailEnv.length) {
     logMailEvent(requestId, 'config-warning', {missingMailEnv});
