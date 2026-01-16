@@ -163,7 +163,7 @@ export default async function handler(
   const data = (req.body ?? {}) as Partial<ClientPayload>;
 
   // Validación de los datos recibidos
-  const campos = [
+  const campos: (keyof ClientPayload)[] = [
     'firstName',
     'lastName',
     'email',
@@ -178,13 +178,13 @@ export default async function handler(
       .json({error: 'Faltan campos requeridos.', code: 'MISSING_FIELDS'});
   }
 
-  const clientPayload = {
-    firstName: data.firstName,
-    lastName: data.lastName,
-    email: data.email,
-    phone: data.phone,
-    classType: data.classType,
-    ageGroup: data.ageGroup,
+  const clientPayload: ClientPayload = {
+    firstName: data.firstName as string,
+    lastName: data.lastName as string,
+    email: data.email as string,
+    phone: data.phone as string,
+    classType: data.classType as string,
+    ageGroup: data.ageGroup as string,
   };
 
   try {
