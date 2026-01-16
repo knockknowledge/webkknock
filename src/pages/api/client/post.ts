@@ -148,11 +148,6 @@ export default async function handler(req: any, res: any) {
     await sendMail(clientPayload);
   } catch (error: any) {
     logError(requestId, 'sendMail', error);
-    return res.status(502).json({
-      error: 'No se pudo enviar el correo.',
-      code: 'MAIL_SEND_FAILED',
-      requestId,
-    });
   }
 
   // Responder con el éxito

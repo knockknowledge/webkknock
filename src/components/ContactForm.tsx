@@ -114,7 +114,12 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
   return (
     <section className={clsx('bg-white px-8 rounded-lg shadow-lg', classes)}>
       <Transition appear show={modalState.open} as={React.Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={closeModal}>
+        <Dialog
+          as="div"
+          open={modalState.open}
+          className="relative z-[999]"
+          onClose={closeModal}
+        >
           <Transition.Child
             as={React.Fragment}
             enter="ease-out duration-300"
