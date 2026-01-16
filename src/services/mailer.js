@@ -2,9 +2,12 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 dotenv.config(); // Carga las variables de entorno desde .env
 
+const mailPort = Number(process.env.MAIL_PORT || 587);
 const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST || 'smtp.ethereal.email',
-  port: process.env.MAIL_PORT || 587,
+  port: mailPort,
+  secure: mailPort === 465 || process.env.MAIL_SECURE === 'true',
+  connectionTimeout: 8000,
   auth: {
     user: process.env.MAIL_ADDRESS,
     pass: process.env.MAIL_PASSWORD,
@@ -189,7 +192,8 @@ export async function sendMail(formData) {
   // Configura las opciones de correo
   let mailOptions = {
     from: process.env.MAIL_ADDRESS,
-    to: process.env.MAIL_ADDRESS,
+    to: process.env.MAIL_TO || process.env.MAIL_ADDRESS,
+    replyTo: formData.email,
     subject: 'Regisro de cliente',
     html: template,
   };
