@@ -36,7 +36,7 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: {errors, isSubmitting},
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -224,9 +224,14 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
         <div className="w-full flex justify-center">
           <button
             type="submit"
-            className="flex justify-center bg-blue-300 p-4 rounded-lg text-white hover:bg-blue-400 w-full"
+            disabled={isSubmitting}
+            aria-busy={isSubmitting}
+            className={clsx(
+              'flex justify-center bg-blue-300 p-4 rounded-lg text-white hover:bg-blue-400 w-full',
+              isSubmitting && 'opacity-60 cursor-not-allowed',
+            )}
           >
-            Enviar
+            {isSubmitting ? 'Enviando...' : 'Enviar'}
           </button>
         </div>
       </form>
