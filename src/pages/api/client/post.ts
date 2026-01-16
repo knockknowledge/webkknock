@@ -55,38 +55,6 @@ const isRateLimited = (ip: string) => {
   return record.count > RATE_LIMIT_MAX;
 };
 
-const verifyRecaptcha = async (token: string) => {
-  const secret = process.env.RECAPTCHA_SECRET_KEY;
-  if (!secret) {
-    const error = new Error('RECAPTCHA_SECRET_KEY no está configurada.');
-    // @ts-ignore - adjuntamos un código para identificar el error
-    error.code = 'RECAPTCHA_NOT_CONFIGURED';
-    throw error;
-  }
-
-  const params = new URLSearchParams();
-  params.set('secret', secret);
-  params.set('response', token);
-
-  const response = await fetch(
-    'https://www.google.com/recaptcha/api/siteverify',
-    {
-      method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: params.toString(),
-    },
-  );
-
-  if (!response.ok) {
-    const error = new Error('No se pudo verificar reCAPTCHA.');
-    // @ts-ignore - adjuntamos un código para identificar el error
-    error.code = 'RECAPTCHA_VERIFY_FAILED';
-    throw error;
-  }
-
-  return response.json();
-};
-
 export default async function handler(req: any, res: any) {
   const requestId = randomUUID();
   res.setHeader('x-request-id', requestId);
@@ -125,34 +93,6 @@ export default async function handler(req: any, res: any) {
     return res
       .status(400)
       .json({error: 'Faltan campos requeridos.', code: 'MISSING_FIELDS'});
-  }
-
-  if (!data.recaptchaToken) {
-    return res.status(400).json({
-      error: 'Confirma que no eres un robot.',
-      code: 'RECAPTCHA_REQUIRED',
-    });
-  }
-
-  try {
-    const recaptchaResult = await verifyRecaptcha(data.recaptchaToken);
-    if (!recaptchaResult?.success) {
-      return res.status(400).json({
-        error: 'No pudimos validar reCAPTCHA.',
-        code: 'RECAPTCHA_INVALID',
-      });
-    }
-  } catch (error: any) {
-    logError(requestId, 'recaptcha', error);
-    const errorCode =
-      error?.code === 'RECAPTCHA_NOT_CONFIGURED'
-        ? 'RECAPTCHA_NOT_CONFIGURED'
-        : 'RECAPTCHA_VERIFY_FAILED';
-    return res.status(502).json({
-      error: 'No se pudo verificar reCAPTCHA.',
-      code: errorCode,
-      requestId,
-    });
   }
 
   const clientPayload = {

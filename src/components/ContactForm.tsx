@@ -2,7 +2,6 @@
 import React from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import {useForm, Controller} from 'react-hook-form';
-import ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import clsx from 'clsx';
@@ -17,7 +16,6 @@ const schema = Yup.object({
   phone: Yup.string().required('El teléfono es requerido'),
   classType: Yup.string().required('Selecciona el tipo de clase'),
   ageGroup: Yup.string().required('Selecciona la edad del estudiante'),
-  recaptchaToken: Yup.string().required('Confirma que no eres un robot'),
 }).required();
 
 interface FormData {
@@ -27,7 +25,6 @@ interface FormData {
   phone: string;
   classType: string;
   ageGroup: string;
-  recaptchaToken: string;
 }
 
 interface ContactFormProps {
@@ -50,18 +47,10 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
     control,
     handleSubmit,
     reset,
-    register,
-    setValue,
-    watch,
     formState: {errors, isSubmitting},
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
-
-  const recaptchaRef = React.useRef<any>(null);
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
-  const recaptchaAvailable = Boolean(recaptchaSiteKey);
-  const recaptchaTokenValue = watch('recaptchaToken');
 
   const [modalState, setModalState] = React.useState<ModalState>({
     open: false,
@@ -69,10 +58,6 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
     title: '',
     message: '',
   });
-
-  const handleRecaptchaChange = (token: string | null) => {
-    setValue('recaptchaToken', token || '', {shouldValidate: true});
-  };
 
   const closeModal = () =>
     setModalState(prev => ({
@@ -104,7 +89,6 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
       }
 
       reset();
-      recaptchaRef.current?.reset?.();
       setModalState({
         open: true,
         type: 'success',
@@ -247,7 +231,6 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
 
       {title && <h2 className="text-blue-500 mb-5">{title}</h2>}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="hidden" {...register('recaptchaToken')} />
         <div className="mb-4 flex flex-col rounded-lg p-2 bg-gray-200">
           <label htmlFor="firstName">Nombre:</label>
           <Controller
@@ -404,36 +387,14 @@ const ContactForm: React.FC<ContactFormProps> = ({title, classes}) => {
           )}
         </div>
 
-        <div className="mb-4 flex flex-col rounded-lg p-2 bg-gray-200">
-          <label className="text-sm">Verificación:</label>
-          {recaptchaAvailable ? (
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={recaptchaSiteKey}
-              onChange={handleRecaptchaChange}
-              onExpired={() => handleRecaptchaChange(null)}
-            />
-          ) : (
-            <p className="text-sm text-red-600">
-              Falta configurar reCAPTCHA.
-            </p>
-          )}
-          {errors.recaptchaToken && (
-            <p style={{color: 'red'}}>{errors.recaptchaToken.message}</p>
-          )}
-        </div>
-
         <div className="w-full flex justify-center">
           <button
             type="submit"
-            disabled={
-              isSubmitting || !recaptchaAvailable || !recaptchaTokenValue
-            }
+            disabled={isSubmitting}
             aria-busy={isSubmitting}
             className={clsx(
               'flex justify-center bg-blue-300 p-4 rounded-lg text-white hover:bg-blue-400 w-full',
-              (isSubmitting || !recaptchaAvailable || !recaptchaTokenValue) &&
-                'opacity-60 cursor-not-allowed',
+              isSubmitting && 'opacity-60 cursor-not-allowed',
             )}
           >
             {isSubmitting ? 'Enviando...' : 'Enviar'}
