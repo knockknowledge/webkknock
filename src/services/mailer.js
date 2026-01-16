@@ -192,8 +192,8 @@ export async function sendMail(formData) {
   // Configura las opciones de correo
   let mailOptions = {
     from: process.env.MAIL_ADDRESS,
-    to: process.env.MAIL_TO || process.env.MAIL_ADDRESS,
-    replyTo: formData.email,
+    to: process.env.MAIL_ADDRESS,
+    replyTo: process.env.MAIL_ADDRESS,
     subject: 'Regisro de cliente',
     html: template,
   };
